@@ -46,6 +46,10 @@ submit:
 ssh:
 	@$(DC) exec spark-master bash
 
+recomend:
+	make assembly
+	@$(DC) exec spark-master /spark/bin/spark-submit /app/target/scala-2.12/root-assembly-0.1.0-SNAPSHOT.jar 0 750
+
 remove:
 	@$(DC) down -v --rmi all --remove-orphans
 	make remove-volume
@@ -55,9 +59,9 @@ remove-volume:
 	@$(RUN) docker volume rm hadoop.datanode -f
 	@$(RUN) docker volume rm hadoop.historyserver -f
 
-run:
+train:
 	make assembly
-	make submit
+	@$(DC) exec spark-master /spark/bin/spark-submit /app/target/scala-2.12/root-assembly-0.1.0-SNAPSHOT.jar 1
 
 up:
 	@$(UP)

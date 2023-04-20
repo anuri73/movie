@@ -1,9 +1,10 @@
 package urmat.jenaliev.model
 
 import org.apache.hadoop.fs.FileSystem
-import org.apache.spark.mllib.recommendation.{ALS, Rating}
+import org.apache.spark.mllib.recommendation.{ALS, MatrixFactorizationModel, Rating}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import urmat.jenaliev.source.assessment.Assessment
+import urmat.jenaliev.source.movie.MovieId
 
 abstract class ModelView {
   def path: String
@@ -24,6 +25,11 @@ abstract class ModelView {
     ALS
       .train(ratings.rdd, 5, 20, 0.1)
       .save(spark.sparkContext, ModelView.path)
+  }
+
+  def recomend(userId: Int)(implicit spark: SparkSession): Array[MovieId] = {
+    val model = MatrixFactorizationModel.load(spark.sparkContext, path)
+    model.recommendProducts(userId, 10).map(p => MovieId(p.product))
   }
 }
 
