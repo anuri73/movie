@@ -1,25 +1,18 @@
 package urmat.jenaliev
 
 import org.apache.spark.sql.SparkSession
+import urmat.jenaliev.model.ModelView
+import urmat.jenaliev.source.assessment.AssessmentView
+import urmat.jenaliev.spark.Session
 
 object App {
 
-  implicit lazy val spark: SparkSession = SparkSession
-    .builder()
-    .appName("Movie recomendation system")
-    .config("spark.sql.session.timeZone", "UTC")
-    .config("spark.executor.cores", 1)
-    .config("spark.executor.memory", "512m")
-    .master("spark://localhost:7077")
-    .getOrCreate()
+  implicit protected lazy val spark: SparkSession = Session.remoteSpark
 
-  spark.sparkContext.setLogLevel("ERROR")
+  def main(args: Array[String]): Unit =
+    try ModelView.train(
+      AssessmentView.data
+    )
+    finally spark.close
 
-  def main(args: Array[String]): Unit = {
-    import spark.implicits._
-    try {
-      val df = (1 to 100).toDF
-      print(df.count)
-    } finally spark.close
-  }
 }

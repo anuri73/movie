@@ -1,48 +1,91 @@
 version: "3.6"
-volumes:
-  shared-workspace:
-    name: "hadoop-distributed-file-system"
-    driver: local
+
+networks:
+  web-network:
+
 services:
+
+  datanode:
+    container_name: datanode
+    environment:
+      - "SERVICE_PRECONDITION=namenode:9870"
+    env_file:
+      - ./.hadoop.env
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    networks:
+      - web-network
+    ports:
+      - "9864:9864"
+    restart: always
+    volumes:
+      - hadoop.datanode:/hadoop/dfs/data
+
+  namenode:
+    container_name: namenode
+    environment:
+      - "CLUSTER_NAME=movie"
+    env_file:
+      - ./.hadoop.env
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    networks:
+      - web-network
+    ports:
+      - "9870:9870"
+      - "9000:9000"
+    restart: always
+    volumes:
+      - hadoop.namenode:/hadoop/dfs/name
+      - ./data/hadoop/namenode/ml-100k:/data/hadoop/namenode/ml-100k
+
   spark-master:
-    image: bde2020/spark-master:3.2.0-hadoop3.2
+    build: .
     container_name: spark-master
+    environment:
+      - "INIT_DAEMON_STEP=spark_master_init"
+      - "SPARK_MASTER_WEBUI_PORT=8080"
+      - "SPARK_MASTER_PORT=7077"
+    hostname: spark-master
+    networks:
+      - web-network
     ports:
       - "8080:8080"
       - "7077:7077"
-    environment:
-      - INIT_DAEMON_STEP=spark_master_init
     volumes:
-      - shared-workspace:/opt/workspace
+      - ./project:/app/project
+      - ./src:/app/src
+      - ./build.sbt:/app/build.sbt
+      - ./.scalafmt.conf:/app/.scalafmt.conf
+
   spark-worker-1:
-    image: bde2020/spark-worker:3.2.0-hadoop3.2
+    image: bde2020/spark-worker:3.1.2-hadoop3.2
     container_name: spark-worker-1
     environment:
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=512m
+      - "SPARK_WORKER_CORES=2"
+      - "SPARK_WORKER_MEMORY=1024m"
       - "SPARK_MASTER=spark://spark-master:7077"
+    networks:
+      - web-network
     ports:
       - "8081:8081"
-    volumes:
-      - shared-workspace:/opt/workspace
     depends_on:
       - spark-master
+
   spark-worker-2:
-    image: bde2020/spark-worker:3.2.0-hadoop3.2
+    image: bde2020/spark-worker:3.1.2-hadoop3.2
     container_name: spark-worker-2
     environment:
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=512m
+      - "SPARK_WORKER_CORES=2"
+      - "SPARK_WORKER_MEMORY=1024m"
       - "SPARK_MASTER=spark://spark-master:7077"
+    networks:
+      - web-network
     ports:
       - "8082:8081"
-    volumes:
-      - shared-workspace:/opt/workspace
     depends_on:
       - spark-master
-  app:
-    build: .
-    container_name: app
-    hostname: app
-    depends_on:
-      - spark-master
+
+volumes:
+  hadoop.namenode:
+    external: true
+  hadoop.datanode:
+    external: true
