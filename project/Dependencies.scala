@@ -1,23 +1,24 @@
-import sbt.Keys._
 import sbt._
 
 object Dependencies {
 
   object Version {
-    val scala2v12      = "2.12.15"
+    val scala2v12      = "2.12.10"
     val projectVersion = "0.1.0-SNAPSHOT"
 
-    val spark = Def.setting {
-      scalaVersion.value match {
-        case `scala2v12` => "3.2.0"
-      }
-    }
-
+    val cats      = "2.8.0"
+    val frameless = "0.11.1"
+    val hadoop    = "3.2.0"
+    val scalaTest = "3.3.0-SNAP3"
+    val slf4j     = "1.6.4"
+    val spark     = "3.1.2"
   }
 
-  def sparkCore(sparkVersion: String): ModuleID = "org.apache.spark" %% "spark-core"  % sparkVersion
-  def sparkMl(sparkVersion: String): ModuleID   = "org.apache.spark" %% "spark-mllib" % sparkVersion
-  def sparkSql(sparkVersion: String): ModuleID  = "org.apache.spark" %% "spark-sql"   % sparkVersion
-  def sparkHive(sparkVersion: String): ModuleID = "org.apache.spark" %% "spark-hive"  % sparkVersion
+  def cats(project: String): ModuleID      = "org.typelevel"    %% s"cats-$project"      % Version.cats
+  def frameless(project: String): ModuleID = "org.typelevel"    %% s"frameless-$project" % Version.frameless
+  def hadoop(project: String): ModuleID    = "org.apache.hadoop" % s"hadoop-$project"    % Version.hadoop
+  def scalaTest: ModuleID                  = "org.scalatest"    %% "scalatest"           % Version.scalaTest
+  def slf4j(project: String): ModuleID     = "org.slf4j"         % s"slf4j-$project"     % Version.slf4j
+  def spark(project: String): ModuleID     = "org.apache.spark" %% s"spark-$project"     % Version.spark
 
 }
