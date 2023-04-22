@@ -1,8 +1,10 @@
 package urmat.jenaliev.source.movie
 
 import org.apache.spark.sql.{Dataset, SparkSession}
+import urmat.jenaliev.source.Ml100kData
 
 abstract class MovieView {
+  lazy val path = "u.item"
   def source(implicit spark: SparkSession): Dataset[Movie]
   def data(implicit spark: SparkSession): Dataset[Movie] = source
 }
@@ -13,7 +15,7 @@ object MovieView extends MovieView {
     import spark.implicits._
 
     spark.read
-      .textFile("hdfs://namenode:9000/data/ml-100k/u.item")
+      .textFile(Ml100kData.getMlDataPath(path))
       .map(_.split("\\|"))
       .map { f =>
         Movie(
