@@ -1,17 +1,19 @@
 package urmat.jenaliev.source.movie
 
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.SparkSession
 import urmat.jenaliev.source.Ml100kData
+import urmat.jenaliev.spark.dataset.TypedDataset
+import urmat.jenaliev.spark.dataset.TypedDatasetSyntax._
 
 abstract class MovieView {
   lazy val path = "u.item"
-  def source(implicit spark: SparkSession): Dataset[Movie]
-  def data(implicit spark: SparkSession): Dataset[Movie] = source
+  def source(implicit spark: SparkSession): TypedDataset[Movie]
+  def data(implicit spark: SparkSession): TypedDataset[Movie] = source
 }
 
 object MovieView extends MovieView {
 
-  override def source(implicit spark: SparkSession): Dataset[Movie] = {
+  override def source(implicit spark: SparkSession): TypedDataset[Movie] = {
     import spark.implicits._
 
     spark.read
@@ -44,5 +46,6 @@ object MovieView extends MovieView {
           f(22) == "1"
         )
       }
+      .typed
   }
 }

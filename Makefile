@@ -40,15 +40,13 @@ down:
 sbt:
 	@$(DC) exec spark-master sbt
 
-submit:
-	@$(DC) exec spark-master /spark/bin/spark-submit /app/target/scala-2.12/root-assembly-0.1.0-SNAPSHOT.jar
-
 ssh:
 	@$(DC) exec spark-master bash
 
 recomend:
+	@$(DC) exec spark-master rm -rf /app/target
 	make assembly
-	@$(DC) exec spark-master /spark/bin/spark-submit /app/target/scala-2.12/root-assembly-0.1.0-SNAPSHOT.jar 0 750
+	@$(DC) exec spark-master /app/recomend.sh
 
 remove:
 	@$(DC) down -v --rmi all --remove-orphans
@@ -59,9 +57,13 @@ remove-volume:
 	@$(RUN) docker volume rm hadoop.datanode -f
 	@$(RUN) docker volume rm hadoop.historyserver -f
 
+test:
+	@$(DC) exec spark-master sbt test
+
 train:
+	@$(DC) exec spark-master rm -rf /app/target
 	make assembly
-	@$(DC) exec spark-master /spark/bin/spark-submit /app/target/scala-2.12/root-assembly-0.1.0-SNAPSHOT.jar 1
+	@$(DC) exec spark-master /app/train.sh
 
 up:
 	@$(UP)

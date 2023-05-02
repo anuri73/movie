@@ -1,5 +1,8 @@
 FROM bde2020/spark-master:3.1.2-hadoop3.2
 
+ENV SPARK_MASTER_NAME spark-master
+ENV SPARK_MASTER_PORT 7077
+
 ARG SBT_VERSION
 ENV SBT_VERSION=${SBT_VERSION:-1.8.2}
 
@@ -12,5 +15,7 @@ WORKDIR /app
 ADD build.sbt /app/
 ADD project /app/project
 ADD src /app/src
+ADD train.sh /app/train.sh
+ADD recomend.sh /app/recomend.sh
 
-ENTRYPOINT ["sleep", "infinitys"]
+CMD ["/bin/bash", "/master.sh"]

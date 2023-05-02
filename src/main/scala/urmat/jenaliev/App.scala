@@ -16,8 +16,7 @@ object App {
       case "0" =>
         val movies: Array[Int] = recomend(args(1).toInt).map(_.id)
         MovieView.data.filter(col("movieId").isin(movies: _*)).show(10, truncate = false)
-      case "1" =>
-      case _   => train()
+      case "1" | _ => train()
     } finally spark.close
 
   def train(): Unit = ModelView.train(AssessmentView.data)

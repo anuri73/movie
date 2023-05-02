@@ -7,10 +7,8 @@ lazy val commonSettings = Defaults.coreDefaultSettings ++ Seq(
   },
   libraryDependencies ++= Seq(
     cats("core"),
-    frameless("dataset"),
-    frameless("ml"),
-    frameless("cats"),
-    scalaTest      % "test, it",
+    scalaTest % "test, it",
+    slf4j("api"),
     spark("core")  % Provided,
     spark("mllib") % Provided,
     spark("sql")   % Provided
