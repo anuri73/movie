@@ -17,7 +17,7 @@ object App
   implicit protected lazy val spark: SparkSession = Session.remoteSpark
 
   override def main: Opts[IO[ExitCode]] = subcommands.map {
-    case TrainCmdOptions(ids)      => Cli(spark).trainer.train(ids)
+    case TrainCmdOptions(ids)       => Cli(spark).trainer.train(ids)
     case RecomendCmdOptions(amount) => Cli(spark).recomender.recomend(amount)
   }
 }

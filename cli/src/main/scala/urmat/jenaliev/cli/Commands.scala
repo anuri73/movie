@@ -9,7 +9,7 @@ import urmat.jenaliev.cli.movie.MovieId.MovieId
 sealed trait CmdOptions extends Product with Serializable
 
 final case class TrainCmdOptions(ids: NonEmptyList[MovieId]) extends CmdOptions
-final case class RecomendCmdOptions(amount: PosInt)           extends CmdOptions
+final case class RecomendCmdOptions(amount: PosInt)          extends CmdOptions
 
 object Commands {
 

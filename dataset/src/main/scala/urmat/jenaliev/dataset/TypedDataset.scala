@@ -257,7 +257,7 @@ final case class TypedDataset[T](dataset: Dataset[T], alias: Option[String]) {
 
   def inputFiles: Array[String] = dataset.inputFiles
 
-  def map[U : Encoder](func: T => U): Dataset[U] = dataset.map(func)
+  def map[U: Encoder](func: T => U): Dataset[U] = dataset.map(func)
 
   private def matchSchemes(schema_from: StructType, schema_to: StructType): MatchResult = {
 
