@@ -14,7 +14,9 @@ WORKDIR /app
 
 ADD build.sbt /app/
 ADD project /app/project
-ADD src /app/src
+ADD app /app/app
+ADD cli /app/cli
+ADD dataset /app/dataset
 ADD train.sh /app/train.sh
 ADD recomend.sh /app/recomend.sh
 

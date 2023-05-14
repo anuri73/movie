@@ -46,10 +46,12 @@ services:
       - "7077:7077"
     volumes:
       - ./.scalafmt.conf:/app/.scalafmt.conf
+      - ./app:/app/app
       - ./build.sbt:/app/build.sbt
+      - ./cli:/app/cli
+      - ./dataset:/app/∂ataset
       - ./project:/app/project
       - ./recomend.sh:/app/recomend.sh
-      - ./src:/app/src
       - ./train.sh:/app/train.sh
 
   spark-worker-1:

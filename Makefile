@@ -19,6 +19,9 @@ create-volume:
 	@$(RUN) docker volume create --name=hadoop.datanode
 	@$(RUN) docker volume create --name=hadoop.historyserver
 
+hdfs:
+	@$(RUN) docker exec -it namenode bash
+
 import:
 	@$(RUN) docker exec namenode hdfs dfs -mkdir -p /data/ml-100k
 	@$(RUN) docker exec namenode hdfs dfs -put /data/hadoop/namenode/ml-100k /data
