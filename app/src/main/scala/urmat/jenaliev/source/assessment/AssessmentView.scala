@@ -1,12 +1,12 @@
 package urmat.jenaliev.source.assessment
 
 import org.apache.spark.sql._
-import urmat.jenaliev.source.Ml100kData
 import urmat.jenaliev.dataset.TypedDataset
 import urmat.jenaliev.dataset.TypedDatasetSyntax._
+import urmat.jenaliev.source.Ml100kData
 
 abstract class AssessmentView {
-  lazy val path = "u.data"
+  lazy val path = "ratings.csv"
   def dataset(implicit spark: SparkSession): Dataset[Assessment]
 
   def typed(implicit spark: SparkSession): TypedDataset[Assessment] = {
@@ -21,10 +21,12 @@ object AssessmentView extends AssessmentView {
     import spark.implicits._
 
     spark.read
-      .textFile(Ml100kData.getMlDataPath(path))
-      .map(_.split("\t"))
-      .map { case Array(user, item, rate, _) =>
-        Assessment(user.toInt, item.toInt, rate.toDouble)
-      }
+      .option("header", "true")
+      .option("delimiter", ",")
+      .option("ignoreLeadingWhiteSpace", "true")
+      .option("ignoreTrailingWhiteSpace", "true")
+      .schema(spark.emptyDataset[Assessment].schema)
+      .csv(Ml100kData.getMlDataPath(path))
+      .as[Assessment]
   }
 }

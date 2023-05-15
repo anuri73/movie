@@ -58,8 +58,8 @@ services:
     image: bde2020/spark-worker:3.1.2-hadoop3.2
     container_name: spark-worker-1
     environment:
-      - "SPARK_WORKER_CORES=2"
-      - "SPARK_WORKER_MEMORY=1024m"
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=3072m"
       - "SPARK_MASTER=spark://spark-master:7077"
     ports:
       - "8081:8081"
@@ -70,11 +70,35 @@ services:
     image: bde2020/spark-worker:3.1.2-hadoop3.2
     container_name: spark-worker-2
     environment:
-      - "SPARK_WORKER_CORES=2"
-      - "SPARK_WORKER_MEMORY=1024m"
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=3072m"
       - "SPARK_MASTER=spark://spark-master:7077"
     ports:
       - "8082:8081"
+    depends_on:
+      - spark-master
+
+  spark-worker-3:
+    image: bde2020/spark-worker:3.1.2-hadoop3.2
+    container_name: spark-worker-3
+    environment:
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=3072m"
+      - "SPARK_MASTER=spark://spark-master:7077"
+    ports:
+      - "8083:8081"
+    depends_on:
+      - spark-master
+
+  spark-worker-4:
+    image: bde2020/spark-worker:3.1.2-hadoop3.2
+    container_name: spark-worker-4
+    environment:
+      - "SPARK_WORKER_CORES=1"
+      - "SPARK_WORKER_MEMORY=3072m"
+      - "SPARK_MASTER=spark://spark-master:7077"
+    ports:
+      - "8084:8081"
     depends_on:
       - spark-master
 

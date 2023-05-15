@@ -4,7 +4,7 @@ BASH=/bin/bash
 SH=/bin/sh
 
 assembly:
-	@$(DC) exec spark-master sbt assembly
+	@$(DC) exec spark-master sbt cli/assembly
 
 build-and-up:
 	@$(RUN) make copy-env

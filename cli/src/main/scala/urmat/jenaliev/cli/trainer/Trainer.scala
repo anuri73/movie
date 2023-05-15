@@ -7,7 +7,7 @@ import urmat.jenaliev.cli.movie.MovieId
 import urmat.jenaliev.dataset.TypedDataset
 import urmat.jenaliev.dataset.TypedDatasetSyntax._
 import urmat.jenaliev.model.ModelView
-import urmat.jenaliev.source.assessment.{Assessment, AssessmentView}
+import urmat.jenaliev.source.assessment._
 import urmat.jenaliev.source.movie.MovieView
 
 final case class Mv(movieId: Int, movieTitle: String)
@@ -21,12 +21,12 @@ final class Trainer(implicit spark: SparkSession) extends TrainerAlgebra {
     val movies = MovieView.typed
     movies
       .filter(movies(_.movieId) isin (movieList.toList.map(_.value): _*))
-      .map(m => Assessment(944, m.movieId, 5.0))
+      .map(m => Assessment(0, m.movieId, 5.0, ""))
       .typed
   }
 
   override def train(movies: NonEmptyList[MovieId.MovieId]): IO[ExitCode] = {
-    val assessments = getAssessments.union(getUserAssessments(movies))
+    val assessments = Seq(getAssessments, getUserAssessments(movies)).reduce(_ union _)
     ModelView.train(assessments)
     IO(ExitCode.Success)
   }

@@ -21,8 +21,8 @@ object Session {
       .config("spark.sql.shuffle.partitions", 4)
       .config("spark.sql.warehouse.dir", warehouseDir.toUri.toString)
       .config("spark.driver.bindAddress", "127.0.0.1")
-      .config("spark.executor.memory", "1024m")
-      .config("spark.driver.memory", "1024m")
+      .config("spark.executor.memory", "2024m")
+      .config("spark.driver.memory", "2024m")
       .getOrCreate()
   }
 
