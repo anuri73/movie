@@ -31,7 +31,12 @@ abstract class ModelView {
     val rank    = 12
     val lambda  = 0.1
     val numIter = 20
-    val model   = ALS.train(training.map(t => Rating(t.userId, t.movieId, t.rating)).rdd, rank, numIter, lambda)
+    val model = ALS.train(
+      training.map(t => Rating(t.userId, t.movieId, t.rating)).rdd,
+      rank,
+      numIter,
+      lambda
+    )
 
     val validationRmse = rmse(model, validation.map(t => Rating(t.userId, t.movieId, t.rating)).rdd)
     println(
@@ -54,7 +59,7 @@ abstract class ModelView {
   def recomend(amount: Int)(implicit spark: SparkSession): TypedDataset[Assessment] = {
     import spark.implicits._
     MatrixFactorizationModel
-      .load(spark.sparkContext, path)
+      .load(spark.sparkContext, "hdfs://namenode:9000/data/model/als_model")
       .recommendProducts(0, amount)
       .toSeq
       .map(p => Assessment(p.user, p.product, p.rating, ""))

@@ -13,23 +13,26 @@ final case class Mv(movieId: Int, movieTitle: String)
 
 final class Trainer(implicit spark: SparkSession) extends TrainerAlgebra {
 
-  private def getAssessments: TypedDataset[Assessment] = AssessmentView.typed
+  import spark.implicits._
 
-  private def getUserAssessments(movieList: NonEmptyList[MovieId.MovieId]): TypedDataset[Assessment] = {
-    import spark.implicits._
-    movieList
-      .map(m => Assessment(0, m.value, 5.0, ""))
-      .toList
-      .toDS
-      .typed
-  }
+  private def getAssessments: IO[TypedDataset[Assessment]] = IO(AssessmentView.typed)
 
-  override def train(movies: NonEmptyList[MovieId.MovieId]): IO[ExitCode] =
+  private def getUserAssessments(movieList: NonEmptyList[MovieId.MovieId]): IO[TypedDataset[Assessment]] =
+    IO(
+      movieList
+        .map(m => Assessment(0, m.value, 5.0, ""))
+        .toList
+        .toDS
+        .typed
+    )
+
+  override def train(userMovies: NonEmptyList[MovieId.MovieId]): IO[ExitCode] =
     for {
-      assements      <- IO(getAssessments.limit(100000))
-      userAassements <- IO(getUserAssessments(movies))
+      assements      <- getAssessments
+      userAassements <- getUserAssessments(userMovies)
       assements      <- IO(Seq(assements, userAassements).reduce(_ union _))
-      _              <- IO(ModelView.train(assements.distinct()))
+      distinct       <- IO(assements.distinct())
+      _              <- IO(ModelView.train(distinct))
     } yield ExitCode.Success
 }
 
