@@ -1,11 +1,12 @@
 package source
 
+import com.holdenkarau.spark.testing.DatasetSuiteBase
 import org.apache.spark.sql._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import urmat.jenaliev.source.assessment._
 
-final class AssessmentViewTest extends AnyWordSpecLike with Matchers with SparkTest {
+final class AssessmentViewTest extends AnyWordSpecLike with Matchers with DatasetSuiteBase {
   "AssessmentView" should {
     "have valid code" in {
       object AssessmentView extends AssessmentView {
@@ -14,8 +15,7 @@ final class AssessmentViewTest extends AnyWordSpecLike with Matchers with SparkT
           spark.emptyDataset[Assessment]
         }
       }
-
-      AssessmentView.dataset.collect() shouldBe Array()
+      AssessmentView.dataset(spark).collect() shouldBe Array()
     }
   }
 }

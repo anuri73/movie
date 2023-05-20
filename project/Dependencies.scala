@@ -6,16 +6,17 @@ object Dependencies {
     val scala2v12      = "2.12.10"
     val projectVersion = "0.1.0-SNAPSHOT"
 
-    val cats          = "2.8.0"
-    val catsEffect    = "2.5.5"
-    val frameless     = "0.11.1"
-    val hadoop        = "3.2.0"
-    val log4j         = "2.20.0"
-    val macroParadise = "2.1.0"
-    val scalaTest     = "3.3.0-SNAP3"
-    val slf4j         = "1.6.4"
-    val decline       = "2.4.1"
-    val spark         = "3.1.2"
+    val cats             = "2.8.0"
+    val catsEffect       = "2.5.5"
+    val frameless        = "0.11.1"
+    val hadoop           = "3.2.0"
+    val log4j            = "2.20.0"
+    val macroParadise    = "2.1.0"
+    val scalaTest        = "3.2.16"
+    val slf4j            = "1.6.4"
+    val decline          = "2.4.1"
+    val spark            = "3.1.2"
+    val sparkTestingBase = s"${spark}_1.4.0"
   }
 
   def cats(project: String, version: String = Version.cats): ModuleID =
@@ -42,6 +43,6 @@ object Dependencies {
   def spark(project: String): ModuleID =
     "org.apache.spark" %% s"spark-$project" % Version.spark
 
-  val macroParadise = ("org.scalamacros" % "paradise" % Version.macroParadise).cross(CrossVersion.patch)
-
+  val macroParadise    = ("org.scalamacros" % "paradise"           % Version.macroParadise).cross(CrossVersion.patch)
+  val sparkTestingBase = "com.holdenkarau" %% "spark-testing-base" % Version.sparkTestingBase
 }

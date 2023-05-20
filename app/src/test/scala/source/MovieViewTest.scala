@@ -1,11 +1,12 @@
 package source
 
+import com.holdenkarau.spark.testing.DatasetSuiteBase
 import org.apache.spark.sql._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import urmat.jenaliev.source.movie._
 
-final class MovieViewTest extends AnyWordSpecLike with Matchers with SparkTest {
+final class MovieViewTest extends AnyWordSpecLike with Matchers with DatasetSuiteBase {
   "MovieView" should {
     "have valid code" in {
       object MovieView extends MovieView {
@@ -15,7 +16,7 @@ final class MovieViewTest extends AnyWordSpecLike with Matchers with SparkTest {
         }
       }
 
-      MovieView.dataset.collect() shouldBe Array()
+      MovieView.dataset(spark).collect() shouldBe Array()
     }
   }
 }

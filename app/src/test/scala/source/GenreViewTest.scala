@@ -1,11 +1,12 @@
 package source
 
+import com.holdenkarau.spark.testing.DatasetSuiteBase
 import org.apache.spark.sql._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 import urmat.jenaliev.source.genre.{Genre, GenreView}
 
-final class GenreViewTest extends AnyWordSpecLike with Matchers with SparkTest {
+final class GenreViewTest extends AnyWordSpecLike with Matchers with DatasetSuiteBase {
   "GenreView" should {
     "have valid code" in {
       object GenreView extends GenreView {
@@ -15,7 +16,7 @@ final class GenreViewTest extends AnyWordSpecLike with Matchers with SparkTest {
         }
       }
 
-      GenreView.dataset.collect() shouldBe Array()
+      GenreView.dataset(spark).collect() shouldBe Array()
     }
   }
 }

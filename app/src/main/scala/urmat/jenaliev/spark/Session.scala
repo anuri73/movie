@@ -14,18 +14,6 @@ object Session {
     defaultSessionBuilder.getOrCreate()
   }
 
-  def localSpark: SparkSession = {
-    adjustLogLevel()
-    defaultSessionBuilder
-      .master("local")
-      .config("spark.sql.shuffle.partitions", 4)
-      .config("spark.sql.warehouse.dir", warehouseDir.toUri.toString)
-      .config("spark.driver.bindAddress", "127.0.0.1")
-      .config("spark.executor.memory", "2024m")
-      .config("spark.driver.memory", "2024m")
-      .getOrCreate()
-  }
-
   private def defaultSessionBuilder: SparkSession.Builder =
     SparkSession
       .builder()

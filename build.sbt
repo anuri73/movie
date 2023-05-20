@@ -39,7 +39,8 @@ lazy val app = (project in file("app"))
     name := "app",
     commonSettings,
     libraryDependencies ++= Seq(
-      scalaTest % "test"
+      scalaTest        % "test",
+      sparkTestingBase % "test"
     )
   )
   .dependsOn(dataset)
