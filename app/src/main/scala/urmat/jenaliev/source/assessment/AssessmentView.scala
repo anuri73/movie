@@ -1,19 +1,11 @@
 package urmat.jenaliev.source.assessment
 
 import org.apache.spark.sql._
-import urmat.jenaliev.dataset.TypedDataset
-import urmat.jenaliev.dataset.TypedDatasetSyntax._
-import urmat.jenaliev.source.Ml100kData
+import urmat.jenaliev.source._
 import urmat.jenaliev.spark.CSV
 
-abstract class AssessmentView {
+abstract class AssessmentView extends SourceEntity[Assessment] {
   lazy val path = "ratings.csv"
-  def dataset(implicit spark: SparkSession): Dataset[Assessment]
-
-  def typed(implicit spark: SparkSession): TypedDataset[Assessment] = {
-    import spark.implicits._
-    dataset.typed
-  }
 }
 
 object AssessmentView extends AssessmentView {

@@ -1,18 +1,11 @@
 package urmat.jenaliev.source.genre
 
 import org.apache.spark.sql._
-import urmat.jenaliev.source.Ml100kData
-import urmat.jenaliev.dataset.TypedDataset
-import urmat.jenaliev.dataset.TypedDatasetSyntax._
+import urmat.jenaliev.source._
 
-abstract class GenreView {
+abstract class GenreView extends SourceEntity[Genre] {
   lazy val path = "u.genre"
   def dataset(implicit spark: SparkSession): Dataset[Genre]
-
-  def typed(implicit spark: SparkSession): TypedDataset[Genre] = {
-    import spark.implicits._
-    dataset.typed
-  }
 }
 
 object GenreView extends GenreView {
