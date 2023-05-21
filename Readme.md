@@ -147,6 +147,6 @@ hope you found this repository useful.
 ## Contact
 
 * **Author**: Urmat Zhenaliev
-* **Email**: [mailto:urmat.zhenaliev@gmail.com](urmat.zhenaliev@gmail.com)
+* **Email**: [urmat.zhenaliev@gmail.com](mailto:urmat.zhenaliev@gmail.com)
 * **Github**: [https://github.com/anuri73](https://github.com/anuri73)
 * **Linkedin**: [https://www.linkedin.com/in/sonkei](https://www.linkedin.com/in/sonkei)
