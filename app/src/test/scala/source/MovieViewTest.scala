@@ -7,6 +7,7 @@ import org.scalatest.wordspec.AnyWordSpecLike
 import urmat.jenaliev.source.movie._
 
 final class MovieViewTest extends AnyWordSpecLike with Matchers with DatasetSuiteBase {
+  implicit override protected def reuseContextIfPossible: Boolean = true
   "MovieView" should {
     "have valid code" in {
       object MovieView extends MovieView {
