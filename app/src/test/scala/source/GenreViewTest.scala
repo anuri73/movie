@@ -7,7 +7,6 @@ import org.scalatest.wordspec.AnyWordSpecLike
 import urmat.jenaliev.source.genre.{Genre, GenreView}
 
 final class GenreViewTest extends AnyWordSpecLike with Matchers with DatasetSuiteBase {
-  override protected implicit def reuseContextIfPossible: Boolean = true
   "GenreView" should {
     "have valid code" in {
       object GenreView extends GenreView {
