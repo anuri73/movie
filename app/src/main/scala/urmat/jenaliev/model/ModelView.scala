@@ -6,9 +6,10 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 import urmat.jenaliev.dataset.TypedDataset
 import urmat.jenaliev.dataset.TypedDatasetSyntax._
+import urmat.jenaliev.logger.LazyLogging
 import urmat.jenaliev.source.assessment.Assessment
 
-abstract class ModelView {
+abstract class ModelView extends LazyLogging {
   def path: String
   def checkpointPath: String
 
@@ -39,7 +40,7 @@ abstract class ModelView {
     )
 
     val validationRmse = rmse(model, validation.map(t => Rating(t.userId, t.movieId, t.rating)).rdd)
-    println(
+    logger.info(
       s"RMSE (validation) = $validationRmse for the model trained with rank = $rank, lambda = $lambda, and numIter = $numIter."
     )
 

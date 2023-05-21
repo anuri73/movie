@@ -12,6 +12,6 @@ object CSV {
       .option("ignoreLeadingWhiteSpace", "true")
       .option("ignoreTrailingWhiteSpace", "true")
       .schema(spark.emptyDataset[T].schema)
-      .csv(Ml100kData.getMlDataPath(path))
+      .csv(path)
       .as[T]
 }

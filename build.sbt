@@ -12,12 +12,14 @@ lazy val commonSettings = Defaults.coreDefaultSettings ++ Seq(
   assembly / assemblyOption ~= { _.withIncludeScala(includeScala = true) },
   libraryDependencies ++= Seq(
     cats("core"),
+    cats("effect", Version.catsEffect),
     log4j("api"),
     log4j("core"),
     log4j("slf4j-impl"),
     spark("core")  % Provided,
     spark("mllib") % Provided,
-    spark("sql")   % Provided
+    spark("sql")   % Provided,
+    typesafeLogging()
   ),
   organization := "urmat.zhenaliev",
   resolvers += Resolver.typesafeIvyRepo("typesafe-ivy-releases"),
