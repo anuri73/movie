@@ -1,3 +1,9 @@
 .idea
 target
 .bsp
+.bloop
+.metals
+metals.sbt
+.cache
+.sbt
+.hadoop.env
