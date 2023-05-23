@@ -21,7 +21,7 @@ object App
     case RecomendCmdOptions(amount) =>
       for {
         recommendataions <- Cli(spark).recommender.recommend(amount)
-        _               <- IO(recommendataions.show(amount.value, truncate = false))
+        _                <- IO(recommendataions.show(amount.value, truncate = false))
       } yield ExitCode.Success
   }
 }

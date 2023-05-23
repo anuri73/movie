@@ -15,8 +15,8 @@ final class Recommender(implicit spark: SparkSession) extends RecommenderAlgebra
     import spark.implicits._
     for {
       recommendations <- IO(ModelView.recommend(amount.value))
-      _              <- logger.info("Recomendations generated!")
-      allMovies      <- IO(MovieView.typed)
+      _               <- logger.info("Recomendations generated!")
+      allMovies       <- IO(MovieView.typed)
     } yield recommendations
       .join(allMovies, allMovies(_.movieId) === recommendations(_.movieId), "left")
       .select(recommendations(_.movieId), allMovies(_.title), recommendations(_.rating))
