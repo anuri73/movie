@@ -51,7 +51,7 @@ services:
       - ./cli:/app/cli
       - ./dataset:/app/∂ataset
       - ./project:/app/project
-      - ./recomend.sh:/app/recomend.sh
+      - ./recommend.sh:/app/recommend.sh
       - ./train.sh:/app/train.sh
 
   spark-worker-1:

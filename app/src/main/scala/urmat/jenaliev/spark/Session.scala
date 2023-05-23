@@ -17,7 +17,7 @@ object Session {
   private def defaultSessionBuilder: SparkSession.Builder =
     SparkSession
       .builder()
-      .appName("Movie recomendation system")
+      .appName("Movie recommendation system")
       .config("spark.sql.session.timeZone", "UTC")
 
   private[spark] def createTempDir(prefix: String = "spark-warehouse"): Path = {

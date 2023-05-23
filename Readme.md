@@ -8,7 +8,7 @@ Roberto Contreras</a> on <a href="https://unsplash.com/photos/n7A4TjAQLN4">Unspl
 Recommendation system is a widely used machine learning technique that has many applications in E-commerce (Amazon,
 Alibaba), video streaming (Netflix, Disney+), social network (Facebook, Linkedin) and many other areas. Because of the
 large amount of data in those services, nowadays most of industry-level recommendation systems are built in big data
-frameworks like Spark and Hadoop. So in this repository I want to make a movie recomendation system using Scala, Spark
+frameworks like Spark and Hadoop. So in this repository I want to make a movie recommendation system using Scala, Spark
 and Hadoop.
 
 ## 1. Introduction to recommendation system
@@ -132,7 +132,7 @@ This command will train our model as if user selected following movies:
 For the convenience - there is already predefined bash command:
 
 ```bash
-make recomend
+make recommend
 ```
 
 ## 8. Summary
