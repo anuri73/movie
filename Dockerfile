@@ -18,6 +18,6 @@ ADD app /app/app
 ADD cli /app/cli
 ADD dataset /app/dataset
 ADD train.sh /app/train.sh
-ADD recomend.sh /app/recomend.sh
+ADD recommend.sh /app/recommend.sh
 
 CMD ["/bin/bash", "/master.sh"]

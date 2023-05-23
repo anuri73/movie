@@ -46,10 +46,10 @@ sbt:
 ssh:
 	@$(DC) exec spark-master bash
 
-recomend:
+recommend:
 	@$(DC) exec spark-master rm -rf /app/target
 	make assembly
-	@$(DC) exec spark-master /app/recomend.sh
+	@$(DC) exec spark-master /app/recommend.sh
 
 remove:
 	@$(DC) down -v --rmi all --remove-orphans

@@ -25,15 +25,15 @@ object Commands {
       movieIdsOpts.map(TrainCmdOptions)
     )
 
-    val recomend = Command(
-      name   = "recomend",
-      header = "recomend command"
+    val recommend = Command(
+      name   = "recommend",
+      header = "recommend command"
     )(
       amountOpt.map(RecomendCmdOptions)
     )
 
     Opts
       .subcommand(train)
-      .orElse(Opts.subcommand(recomend))
+      .orElse(Opts.subcommand(recommend))
   }
 }

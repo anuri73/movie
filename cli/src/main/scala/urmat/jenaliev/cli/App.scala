@@ -9,8 +9,8 @@ import urmat.jenaliev.spark.Session
 
 object App
     extends CommandIOApp(
-      name    = "Movie recomender",
-      header  = "Movie recomendation system",
+      name    = "Movie recommender",
+      header  = "Movie recommendation system",
       version = "0.0.1"
     ) {
 
@@ -20,8 +20,8 @@ object App
     case TrainCmdOptions(userMovieIds) => Cli(spark).trainer.train(userMovieIds)
     case RecomendCmdOptions(amount) =>
       for {
-        recomendataions <- Cli(spark).recomender.recomend(amount)
-        _               <- IO(recomendataions.show(amount.value, truncate = false))
+        recommendataions <- Cli(spark).recommender.recommend(amount)
+        _               <- IO(recommendataions.show(amount.value, truncate = false))
       } yield ExitCode.Success
   }
 }

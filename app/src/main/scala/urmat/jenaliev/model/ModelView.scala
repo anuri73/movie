@@ -57,7 +57,7 @@ abstract class ModelView extends LazyLogging {
     math.sqrt(predictionsAndRatings.map(x => (x._1 - x._2) * (x._1 - x._2)).mean)
   }
 
-  def recomend(amount: Int)(implicit spark: SparkSession): TypedDataset[Assessment] = {
+  def recommend(amount: Int)(implicit spark: SparkSession): TypedDataset[Assessment] = {
     import spark.implicits._
     MatrixFactorizationModel
       .load(spark.sparkContext, "hdfs://namenode:9000/data/model/als_model")
